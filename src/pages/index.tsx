@@ -4,9 +4,9 @@ import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
-import { Logo } from '../components/Logo';
-import Header from './../components/Header/index';
+
 import { CardPost } from '../components/CardPost';
+import PageTitle from '../components/PageTitle/index';
 
 interface Post {
   uid?: string;
@@ -29,16 +29,25 @@ interface HomeProps {
 
 export default function Home({ postsPagination }: HomeProps) {
   const { next_page, results: posts } = postsPagination;
-  console.info("POst", posts);
+
   return (
     <>
-      <Header />
       <main>
-      {
-        posts.map((post: Post) => {
-          return <CardPost { ...post } />
-        })
-      }
+        <section className={styles.container}>
+          <PageTitle>What's the new</PageTitle>
+
+          <div className={styles.postList}>
+            {
+              posts.map((post: Post) => {
+                return (
+                  <article>
+                    <CardPost {...post} />
+                  </article>
+                )
+              })
+            }
+          </div>
+        </section>
       </main>
     </>
   )

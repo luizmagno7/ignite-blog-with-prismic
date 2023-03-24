@@ -4,6 +4,7 @@ import Link, { LinkProps } from 'next/link';
 import Image from 'next/image';
 
 import styles from './cardPost.module.scss'
+import { format } from "date-fns";
 
 interface Post {
     uid?: string;
@@ -19,20 +20,17 @@ interface Post {
 }
 
 export const CardPost: React.FC<Post> = ( post ) => {
-    const { uid: postSlug, data: { title, subtitle, author, banner: { url: bannerUrl }} } = post
+    const { uid: postSlug, first_publication_date: createdAt, data: { title, subtitle, author, banner: { url: bannerUrl }} } = post
 
     return (
         <>
             <Link href={`/post/${postSlug}`}>
-                <a>
-                    <div>
-                        <img src={bannerUrl} alt={title} width={200} height={200} />
-                    </div>
-                    <div>
-                        <h2>{title}</h2>
-                        <small>{author}</small>
-                        <p>{subtitle}</p>
-                    </div>
+                <a className={styles.card}>
+                    
+                    <h2>{title}</h2>
+                    <time dateTime={format(new Date(createdAt), 'dd/MM/yyyy')}>{format(new Date(createdAt), 'dd/MM/yyyy') }</time>
+                    <p>{subtitle}</p>
+                
                 </a>
             </Link>
         </>
